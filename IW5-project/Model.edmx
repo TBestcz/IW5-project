@@ -1,0 +1,314 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ratings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="type" Type="int" Nullable="false" />
+          <Property Name="points" Type="int" Nullable="false" />
+          <Property Name="note" Type="text" Nullable="false" />
+          <Property Name="student_id" Type="int" Nullable="false" />
+          <Property Name="subject_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="students">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="username" Type="text" Nullable="false" />
+          <Property Name="password" Type="text" Nullable="false" />
+          <Property Name="name" Type="text" Nullable="false" />
+          <Property Name="surname" Type="text" Nullable="false" />
+          <Property Name="born_year" Type="int" Nullable="false" />
+          <Property Name="photo" Type="text" Nullable="false" />
+          <Property Name="created_at" Type="datetime" />
+        </EntityType>
+        <EntityType Name="students_subjects">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="student_id" Type="int" Nullable="false" />
+          <Property Name="subject_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="subjects">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="name" Type="text" Nullable="false" />
+          <Property Name="slug" Type="text" Nullable="false" />
+        </EntityType>
+        <Association Name="student_foreign">
+          <End Role="students" Type="Self.students" Multiplicity="1" />
+          <End Role="students_subjects" Type="Self.students_subjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="students">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="students_subjects">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="students_foreign">
+          <End Role="students" Type="Self.students" Multiplicity="1" />
+          <End Role="ratings" Type="Self.ratings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="students">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ratings">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="subject_foreign">
+          <End Role="subjects" Type="Self.subjects" Multiplicity="1" />
+          <End Role="students_subjects" Type="Self.students_subjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="subjects">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="students_subjects">
+              <PropertyRef Name="subject_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="subjects_foreign">
+          <End Role="subjects" Type="Self.subjects" Multiplicity="1" />
+          <End Role="ratings" Type="Self.ratings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="subjects">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ratings">
+              <PropertyRef Name="subject_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBModelStoreContainer">
+          <EntitySet Name="ratings" EntityType="Self.ratings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="students" EntityType="Self.students" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="students_subjects" EntityType="Self.students_subjects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="subjects" EntityType="Self.subjects" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="student_foreign" Association="Self.student_foreign">
+            <End Role="students" EntitySet="students" />
+            <End Role="students_subjects" EntitySet="students_subjects" />
+          </AssociationSet>
+          <AssociationSet Name="students_foreign" Association="Self.students_foreign">
+            <End Role="students" EntitySet="students" />
+            <End Role="ratings" EntitySet="ratings" />
+          </AssociationSet>
+          <AssociationSet Name="subject_foreign" Association="Self.subject_foreign">
+            <End Role="subjects" EntitySet="subjects" />
+            <End Role="students_subjects" EntitySet="students_subjects" />
+          </AssociationSet>
+          <AssociationSet Name="subjects_foreign" Association="Self.subjects_foreign">
+            <End Role="subjects" EntitySet="subjects" />
+            <End Role="ratings" EntitySet="ratings" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="rating">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="type" Type="Int32" Nullable="false" />
+          <Property Name="points" Type="Int32" Nullable="false" />
+          <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="student_id" Type="Int32" Nullable="false" />
+          <Property Name="subject_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="student" Relationship="Self.students_foreign" FromRole="ratings" ToRole="students" />
+          <NavigationProperty Name="subject" Relationship="Self.subjects_foreign" FromRole="ratings" ToRole="subjects" />
+        </EntityType>
+        <EntityType Name="student">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="surname" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="born_year" Type="Int32" Nullable="false" />
+          <Property Name="photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="created_at" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ratings" Relationship="Self.students_foreign" FromRole="students" ToRole="ratings" />
+          <NavigationProperty Name="students_subjects" Relationship="Self.student_foreign" FromRole="students" ToRole="students_subjects" />
+        </EntityType>
+        <EntityType Name="students_subjects">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="student_id" Type="Int32" Nullable="false" />
+          <Property Name="subject_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="student" Relationship="Self.student_foreign" FromRole="students_subjects" ToRole="students" />
+          <NavigationProperty Name="subject" Relationship="Self.subject_foreign" FromRole="students_subjects" ToRole="subjects" />
+        </EntityType>
+        <EntityType Name="subject">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="slug" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ratings" Relationship="Self.subjects_foreign" FromRole="subjects" ToRole="ratings" />
+          <NavigationProperty Name="students_subjects" Relationship="Self.subject_foreign" FromRole="subjects" ToRole="students_subjects" />
+        </EntityType>
+        <Association Name="students_foreign">
+          <End Role="students" Type="Self.student" Multiplicity="1" />
+          <End Role="ratings" Type="Self.rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="students">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ratings">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="subjects_foreign">
+          <End Role="subjects" Type="Self.subject" Multiplicity="1" />
+          <End Role="ratings" Type="Self.rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="subjects">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ratings">
+              <PropertyRef Name="subject_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="student_foreign">
+          <End Role="students" Type="Self.student" Multiplicity="1" />
+          <End Role="students_subjects" Type="Self.students_subjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="students">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="students_subjects">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="subject_foreign">
+          <End Role="subjects" Type="Self.subject" Multiplicity="1" />
+          <End Role="students_subjects" Type="Self.students_subjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="subjects">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="students_subjects">
+              <PropertyRef Name="subject_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ratings" EntityType="Self.rating" />
+          <EntitySet Name="students" EntityType="Self.student" />
+          <EntitySet Name="students_subjects" EntityType="Self.students_subjects" />
+          <EntitySet Name="subjects" EntityType="Self.subject" />
+          <AssociationSet Name="students_foreign" Association="Self.students_foreign">
+            <End Role="students" EntitySet="students" />
+            <End Role="ratings" EntitySet="ratings" />
+          </AssociationSet>
+          <AssociationSet Name="subjects_foreign" Association="Self.subjects_foreign">
+            <End Role="subjects" EntitySet="subjects" />
+            <End Role="ratings" EntitySet="ratings" />
+          </AssociationSet>
+          <AssociationSet Name="student_foreign" Association="Self.student_foreign">
+            <End Role="students" EntitySet="students" />
+            <End Role="students_subjects" EntitySet="students_subjects" />
+          </AssociationSet>
+          <AssociationSet Name="subject_foreign" Association="Self.subject_foreign">
+            <End Role="subjects" EntitySet="subjects" />
+            <End Role="students_subjects" EntitySet="students_subjects" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBModelStoreContainer" CdmEntityContainer="DBEntities">
+          <EntitySetMapping Name="ratings">
+            <EntityTypeMapping TypeName="DBModel.rating">
+              <MappingFragment StoreEntitySet="ratings">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="points" ColumnName="points" />
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+                <ScalarProperty Name="subject_id" ColumnName="subject_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="students">
+            <EntityTypeMapping TypeName="DBModel.student">
+              <MappingFragment StoreEntitySet="students">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="born_year" ColumnName="born_year" />
+                <ScalarProperty Name="photo" ColumnName="photo" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="students_subjects">
+            <EntityTypeMapping TypeName="DBModel.students_subjects">
+              <MappingFragment StoreEntitySet="students_subjects">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+                <ScalarProperty Name="subject_id" ColumnName="subject_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="subjects">
+            <EntityTypeMapping TypeName="DBModel.subject">
+              <MappingFragment StoreEntitySet="subjects">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="slug" ColumnName="slug" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
