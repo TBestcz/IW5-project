@@ -1,6 +1,7 @@
-﻿CREATE TABLE [dbo].[Table]
-(
-	[Id] INT NOT NULL PRIMARY KEY, 
-    [name] TEXT NOT NULL, 
-    [slug] TEXT NOT NULL
-)
+﻿CREATE TABLE [dbo].[subjects] (
+    [Id]   INT  NOT NULL,
+    [name] TEXT NOT NULL,
+    [slug] TEXT NOT NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
